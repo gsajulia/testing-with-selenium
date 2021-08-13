@@ -1,19 +1,16 @@
 import unittest
-from basePage import ExploreDegrees
-from selenium import webdriver
+from basePage import BasePage
 
 def main():
-    print("Starting to test!")
-    driver = webdriver.Firefox()
-    driver.get("https://asuonline.asu.edu/")
+    # Criando as classes de testes
+    tc1=unittest.TestLoader().loadTestsFromTestCase(BasePage)
 
-    # Explorando títulos
-    exploreDegrees = ExploreDegrees()
-    
-    exploreDegrees.test_checkbox1(driver)
-    exploreDegrees.checkbox2(driver)
-    exploreDegrees.button(driver)
+    #Adicionando as classes no suite
+    testingBasePage = unittest.TestSuite([tc1])
+
+    #Executando todos os testes definidos
+    unittest.TextTestRunner().run(testingBasePage)
 
 
 if __name__ == "__main__":
-    unittest.main()
+    main()
