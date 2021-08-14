@@ -1,21 +1,22 @@
 import unittest
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from time import sleep 
 
 # Para manipular um elemento dropdown, declaramos ele como uma instância da classe Select
 from selenium.webdriver.support.select import Select
 
-class BasePage(unittest.TestCase):
+class ExploreDegrees(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         #Precisa dessa linha abaixo e dos argumentos
         #Se fizermos normal da erro porque tentamos sobrescrever a classe init do TestCase
-        super(BasePage, self).__init__(*args, **kwargs)
+        super(ExploreDegrees, self).__init__(*args, **kwargs)
 
         print("Starting to test!")
         self.driver = webdriver.Firefox()
         self.driver.get("https://asuonline.asu.edu/")
 
-    def checkbox1(self):
+    def dropdown1(self):
         #Elemento existe?
         try:
             firstInput = Select(self.driver.find_element_by_id("__BVID__72"))
@@ -30,9 +31,9 @@ class BasePage(unittest.TestCase):
             firstInput.select_by_value("undergraduate")
 
         except NoSuchElementException:
-            print("Checkbox1 not found")
+            print("Dropdown1 not found")
 
-    def checkbox2(self):
+    def dropdown2(self):
         try:
             secondInput = Select(self.driver.find_element_by_id("__BVID__73"))
             self.options = ["Select area of interest", "All interest area", "Art and design", "Business", "Communication and digital media",
@@ -50,7 +51,7 @@ class BasePage(unittest.TestCase):
             secondInput.select_by_value("engineering-degrees")
 
         except NoSuchElementException:
-            print("Checkbox2 not found")
+            print("Dropdown2 not found")
 
     def button(self):
         try:
@@ -61,6 +62,9 @@ class BasePage(unittest.TestCase):
 
 
     def test_exploringDegrees(self):
-        self.checkbox1()
-        self.checkbox2()
+        self.dropdown1()
+        self.dropdown2()
         self.button()
+        self.driver.quit()
+        self.driver.close()
+        sleep(2)
