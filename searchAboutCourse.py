@@ -47,7 +47,7 @@ class SearchAboutCourse(unittest.TestCase):
             
 
         except NoSuchElementException:
-            print("something is wrong in card")
+            print("some element isnt in card")
 
     def test_searchAboutComputerScience(self):
         self.input1()
@@ -56,9 +56,13 @@ class SearchAboutCourse(unittest.TestCase):
         sleep(10)
 
     def test_page_title(self):
-        title = self.driver.find_element_by_tag_name("h1")
-        self.assertEqual("Computer science and technology degrees", title.text)
-        print("2----------test_page_title pass\n\n")
+        try:
+            title = self.driver.find_element_by_tag_name("h1")
+            self.assertEqual("Computer science and technology degrees", title.text)
+            print("2----------test_page_title pass\n\n")
+
+        except NoSuchElementException:
+            print("h1 not found")
 
     def tearDown(self):
         self.driver.quit()
