@@ -2,35 +2,41 @@ import unittest
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from time import sleep
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+
 # Para manipular um elemento dropdown, declaramos ele como uma instância da classe Select
 from selenium.webdriver.support.select import Select
 
 from time import sleep
 import requests
 
+
 class ExploreDegrees(unittest.TestCase):
     def setUp(self):
         print("Starting to test ExploreDegrees!")
 
-        PROXY = '31.184.201.40:8080'
+        PROXY = '188.166.162.1:3128'
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument('ignore-certificate-errors')
-        chrome_options.add_argument("log-level=3");
-        # chrome_options.add_argument(f'--proxy-server={PROXY}')
+        chrome_options.add_argument("log-level=3")
+        chrome_options.add_argument(f'--proxy-server={PROXY}')
         self.driver = webdriver.Chrome(options=chrome_options)
+        self.driver.implicitly_wait(10)
         self.driver.get("https://asuonline.asu.edu/")
 
     def valid_url(url):
         try:
             req = requests.get(url)
             if req.status_code != requests.codes['ok']:
-                  return False
+                return False
         except Exception as ex:
             print(f'Something went wrong: {ex}')
             print('Try again!')
             return False
-
 
         return True
 
@@ -40,7 +46,8 @@ class ExploreDegrees(unittest.TestCase):
             firstInput = Select(self.driver.find_element_by_id("__BVID__72"))
 
             # Verificando a primeira opção do dropdown
-            self.assertEqual("Select degree type", firstInput.first_selected_option.text)
+            self.assertEqual("Select degree type",
+                             firstInput.first_selected_option.text)
 
             self.options = ["Select degree type", "All degree",
                             "Undergraduate", "Graduate", "Certificates"]
@@ -59,9 +66,10 @@ class ExploreDegrees(unittest.TestCase):
     def dropdown2(self):
         try:
             secondInput = Select(self.driver.find_element_by_id("__BVID__73"))
-            
+
             # Verificando a primeira opção do dropdown
-            self.assertEqual("Select area of interest", secondInput.first_selected_option.text)
+            self.assertEqual("Select area of interest",
+                             secondInput.first_selected_option.text)
 
             self.options = ["Select area of interest", "All interest area", "Art and design", "Business", "Communication and digital media",
                             "Computer science and technology", "Education", "Engineering", "Entrepreneurship and innovation", "Geographical sciences and urban planning",
@@ -85,29 +93,47 @@ class ExploreDegrees(unittest.TestCase):
             exploreButton = self.driver.find_element_by_link_text(
                 "Explore degrees")
 
-            #Link funciona?
-            self.assertTrue(self.driver.current_url + exploreButton.get_attribute('href'))
+            # Link funciona?
+            self.assertTrue(self.driver.current_url +
+                            exploreButton.get_attribute('href'))
 
             exploreButton.click()
         except NoSuchElementException:
             print("Button not found")
 
-    def checkbox(self):
-        for x in range(3):
-            try:
-                thirdInput = self.driver.find_element_by_css_selector(
-                    '#degree-type-filters-d177d116-78a2-42c7-bc77-d6a9badb9b5f')
-                print(thirdInput.get_attribute('checked'))
-                break
-            except NoSuchElementException:
-                print("Checkbox3 not found on attempt ", x+1, "/3")
-                sleep(3)
+    def checkboxes(self):
+        try:
+            firstCB = self.driver.find_element_by_css_selector(
+                '#degree-type-filters-281f9709-6f72-4ed0-8e82-5ea0b30f34fe')
+            self.assertIsNone(firstCB.get_attribute('checked'))
+
+            secondCB = self.driver.find_element_by_css_selector(
+                '#degree-type-filters-49eba34b-6648-45a3-8dd8-b9deb2ee2c93')
+            self.assertFalse(secondCB.is_selected())
+
+            thirdCB = self.driver.find_element_by_css_selector(
+                '#degree-type-filters-d177d116-78a2-42c7-bc77-d6a9badb9b5f')
+            self.assertTrue(thirdCB.get_attribute('checked'))
+            # print(EC.visibility_of_element_located(By.CSS_SELECTOR(
+            #    '#degree-type-filters-281f9709-6f72-4ed0-8e82-5ea0b30f34fe')))
+        except NoSuchElementException:
+            print("Checkboxes not found")
+        sleep(2)
+        try:
+            cardsTitles = self.driver.find_elements_by_xpath(
+                '/html/body/div[1]/main/section[2]/div/div/div[2]/div[4]/a/div/div[1]/p')
+            for card in cardsTitles:
+                self.assertEqual(card.get_attribute(
+                    'innerText'), "Undergraduate")
+        except NoSuchElementException:
+            print("cards' titles not found")
 
     def test_exploringDegrees(self):
         self.dropdown1()
         self.dropdown2()
         self.button()
-        self.checkbox()
+        self.checkboxes()
+        
         title = self.driver.find_element_by_tag_name("h1")
         self.assertEqual("All online degree programs", title.text)
         print("1----------test_exploringDegrees pass\n\n")
@@ -119,6 +145,7 @@ class ExploreDegrees(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
+
 
 if __name__ == "__main__":
     unittest.main()
