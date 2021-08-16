@@ -1,41 +1,26 @@
 import unittest
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from time import sleep 
-from selenium.webdriver.common.action_chains import ActionChains
 
 class SearchAboutCourse(unittest.TestCase):
     def __init__(self, *args, **kwargs):
+        # Precisa dessa linha abaixo e dos argumentos
+        # Se fizermos normal da erro porque tentamos sobrescrever a classe init do TestCase
         super(SearchAboutCourse, self).__init__(*args, **kwargs)
-        self.driver = webdriver.Firefox()
-        self.driver.get("https://asuonline.asu.edu/")
 
-    def link1(self):
-        try:
-            link = self.driver.find_element_by_link_text("Browse Areas of Study")
-            self.driver.execute_script("arguments[0].scrollIntoView();", link)
-            link.click()
+        print("Starting to test!")
 
-        except NoSuchElementException:
-            print("link1 not found")
-
-    def button1(self):
-        try:
-            self.url = "https://asuonline.asu.edu/study/tech-computer-science-degrees/"
-            elems = self.driver.find_elements_by_xpath("//a[@href]")
-            for elem in elems:
-                if(elem.get_attribute("href") == self.url):
-                    button = elem
-
-            button.click()
-
-        except NoSuchElementException:
-            print("link1 not found")
+        PROXY = '31.184.201.40:8080'
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--start-maximized")
+        chrome_options.add_argument('ignore-certificate-errors')
+        chrome_options.add_argument("log-level=3");
+        # chrome_options.add_argument(f'--proxy-server={PROXY}')
+        self.driver = webdriver.Chrome(options=chrome_options)
+        self.driver.get("https://asuonline.asu.edu/study/tech-computer-science-degrees/")
     
-    def input(self):
+    def input1(self):
         try:
             input = self.driver.find_element_by_xpath("//input[@placeholder='Search']")
             input.clear()
@@ -67,9 +52,16 @@ class SearchAboutCourse(unittest.TestCase):
             print("something is wrong in card")
 
     def test_searchAboutComputerScience(self):
-        self.link1()
-        self.button1()
-        self.input()
+        self.input1()
         self.card()
+        print("----------test_searchAboutComputerScience pass")
         sleep(10)
+
+    def test_page_title(self):
+        title = self.driver.find_element_by_tag_name("h1")
+        self.assertEqual("Computer science and technology degrees", title.text)
+        print("----------test_page_title pass")
+
+if __name__ == "__main__":
+    unittest.main()
 
