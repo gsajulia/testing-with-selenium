@@ -8,16 +8,14 @@ from selenium.webdriver.support.select import Select
 
 
 class ExploreDegrees(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        # Precisa dessa linha abaixo e dos argumentos
-        # Se fizermos normal da erro porque tentamos sobrescrever a classe init do TestCase
-        super(ExploreDegrees, self).__init__(*args, **kwargs)
-
-        print("Starting to test!")
+    def setUp(self):
+        print("Starting to test ExploreDegrees!")
 
         PROXY = '31.184.201.40:8080'
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--start-maximized")
+        chrome_options.add_argument('ignore-certificate-errors')
+        chrome_options.add_argument("log-level=3");
         # chrome_options.add_argument(f'--proxy-server={PROXY}')
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.get("https://asuonline.asu.edu/")
@@ -84,6 +82,9 @@ class ExploreDegrees(unittest.TestCase):
         self.dropdown2()
         self.button()
         self.checkbox()
+        print("----------test_exploringDegrees pass\n\n")
+
+    def tearDown(self):
         self.driver.quit()
 
 if __name__ == "__main__":

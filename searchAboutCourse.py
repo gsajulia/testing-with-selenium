@@ -4,12 +4,8 @@ from selenium.common.exceptions import NoSuchElementException
 from time import sleep 
 
 class SearchAboutCourse(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        # Precisa dessa linha abaixo e dos argumentos
-        # Se fizermos normal da erro porque tentamos sobrescrever a classe init do TestCase
-        super(SearchAboutCourse, self).__init__(*args, **kwargs)
-
-        print("Starting to test!")
+    def setUp(self):
+        print("Starting to test SearchAboutCourse!")
 
         PROXY = '31.184.201.40:8080'
         chrome_options = webdriver.ChromeOptions()
@@ -43,7 +39,7 @@ class SearchAboutCourse(unittest.TestCase):
             # Testando se o que foi digitado no search ocorre nos títulos
             cardBottomElem = self.driver.find_elements_by_xpath("//div[@class='card-body degree-search-card-body']//h3")
             for elem in cardBottomElem:
-                print("-------------Opções de cards: ", elem.text)
+                # print("-------------Opções de cards: ", elem.text)
                 self.assertIn("web", elem.text.lower())
 
             
@@ -54,13 +50,16 @@ class SearchAboutCourse(unittest.TestCase):
     def test_searchAboutComputerScience(self):
         self.input1()
         self.card()
-        print("----------test_searchAboutComputerScience pass")
+        print("----------test_searchAboutComputerScience pass\n\n")
         sleep(10)
 
     def test_page_title(self):
         title = self.driver.find_element_by_tag_name("h1")
         self.assertEqual("Computer science and technology degrees", title.text)
-        print("----------test_page_title pass")
+        print("----------test_page_title pass\n\n")
+
+    def tearDown(self):
+        self.driver.quit()
 
 if __name__ == "__main__":
     unittest.main()
