@@ -108,7 +108,14 @@ class ExploreDegrees(unittest.TestCase):
         self.dropdown2()
         self.button()
         self.checkbox()
-        print("----------test_exploringDegrees pass\n\n")
+        title = self.driver.find_element_by_tag_name("h1")
+        self.assertEqual("All online degree programs", title.text)
+        print("1----------test_exploringDegrees pass\n\n")
+    
+    def test_mainpage_subtitle(self):
+        subtitle = self.driver.find_element_by_tag_name("h2")
+        self.assertEqual("We believe in you.", subtitle.text)
+        print("2----------test_page_subtitle pass\n\n")
 
     def tearDown(self):
         self.driver.quit()

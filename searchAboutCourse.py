@@ -52,13 +52,13 @@ class SearchAboutCourse(unittest.TestCase):
     def test_searchAboutComputerScience(self):
         self.input1()
         self.card()
-        print("----------test_searchAboutComputerScience pass\n\n")
+        print("1----------test_searchAboutComputerScience pass\n\n")
         sleep(10)
 
     def test_page_title(self):
         title = self.driver.find_element_by_tag_name("h1")
         self.assertEqual("Computer science and technology degrees", title.text)
-        print("----------test_page_title pass\n\n")
+        print("2----------test_page_title pass\n\n")
 
     def tearDown(self):
         self.driver.quit()
