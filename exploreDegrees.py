@@ -3,9 +3,6 @@ import unittest
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from time import sleep
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 
 # Para manipular um elemento dropdown, declaramos ele como uma instância da classe Select
 from selenium.webdriver.support.select import Select
@@ -23,7 +20,7 @@ class ExploreDegrees(unittest.TestCase):
         chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument('ignore-certificate-errors')
         chrome_options.add_argument("log-level=3")
-        chrome_options.add_argument(f'--proxy-server={PROXY}')
+        # chrome_options.add_argument(f'--proxy-server={PROXY}')
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.implicitly_wait(10)
         self.driver.get("https://asuonline.asu.edu/")
@@ -133,7 +130,7 @@ class ExploreDegrees(unittest.TestCase):
         self.dropdown2()
         self.button()
         self.checkboxes()
-        
+
         title = self.driver.find_element_by_tag_name("h1")
         self.assertEqual("All online degree programs", title.text)
         print("1----------test_exploringDegrees pass\n\n")

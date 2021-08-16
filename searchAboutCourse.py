@@ -9,7 +9,7 @@ class SearchAboutCourse(unittest.TestCase):
     def setUp(self):
         print("Starting to test SearchAboutCourse!")
 
-        PROXY = '31.184.201.40:8080'
+        PROXY = '188.166.162.1:3128'
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument('ignore-certificate-errors')
