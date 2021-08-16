@@ -17,6 +17,7 @@ class ExploreDegrees(unittest.TestCase):
 
         PROXY = '31.184.201.40:8080'
         chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument(f'--proxy-server={PROXY}')
         self.driver = webdriver.Chrome(options=chrome_options)
 
