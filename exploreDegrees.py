@@ -1,4 +1,5 @@
 import unittest
+
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from time import sleep
@@ -8,6 +9,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 # Para manipular um elemento dropdown, declaramos ele como uma instância da classe Select
 from selenium.webdriver.support.select import Select
+
+from time import sleep
+import requests
 
 
 class ExploreDegrees(unittest.TestCase):
@@ -24,10 +28,27 @@ class ExploreDegrees(unittest.TestCase):
         self.driver.implicitly_wait(10)
         self.driver.get("https://asuonline.asu.edu/")
 
+    def valid_url(url):
+        try:
+            req = requests.get(url)
+            if req.status_code != requests.codes['ok']:
+                return False
+        except Exception as ex:
+            print(f'Something went wrong: {ex}')
+            print('Try again!')
+            return False
+
+        return True
+
     def dropdown1(self):
         # Elemento existe?
         try:
             firstInput = Select(self.driver.find_element_by_id("__BVID__72"))
+
+            # Verificando a primeira opção do dropdown
+            self.assertEqual("Select degree type",
+                             firstInput.first_selected_option.text)
+
             self.options = ["Select degree type", "All degree",
                             "Undergraduate", "Graduate", "Certificates"]
             i = 0
@@ -45,6 +66,11 @@ class ExploreDegrees(unittest.TestCase):
     def dropdown2(self):
         try:
             secondInput = Select(self.driver.find_element_by_id("__BVID__73"))
+
+            # Verificando a primeira opção do dropdown
+            self.assertEqual("Select area of interest",
+                             secondInput.first_selected_option.text)
+
             self.options = ["Select area of interest", "All interest area", "Art and design", "Business", "Communication and digital media",
                             "Computer science and technology", "Education", "Engineering", "Entrepreneurship and innovation", "Geographical sciences and urban planning",
                             "Health and wellness", "History", "Humanities", "Information technology", "Language", "Law, criminal justice and public service",
@@ -66,6 +92,11 @@ class ExploreDegrees(unittest.TestCase):
         try:
             exploreButton = self.driver.find_element_by_link_text(
                 "Explore degrees")
+
+            # Link funciona?
+            self.assertTrue(self.driver.current_url +
+                            exploreButton.get_attribute('href'))
+
             exploreButton.click()
         except NoSuchElementException:
             print("Button not found")
