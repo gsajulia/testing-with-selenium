@@ -22,7 +22,7 @@ class ExploreDegrees(unittest.TestCase):
         chrome_options.add_argument("log-level=3")
         # chrome_options.add_argument(f'--proxy-server={PROXY}')
         self.driver = webdriver.Chrome(options=chrome_options)
-        self.driver.implicitly_wait(10)
+        # self.driver.implicitly_wait(10)
         self.driver.get("https://asuonline.asu.edu/")
 
     def valid_url(self, url):
@@ -124,7 +124,7 @@ class ExploreDegrees(unittest.TestCase):
         except NoSuchElementException:
             print("cards' titles not found")
 
-    def test_exploringDegrees(self):
+    def test_1_exploringDegrees(self):
         self.dropdown1()
         self.dropdown2()
         self.button()
@@ -138,7 +138,7 @@ class ExploreDegrees(unittest.TestCase):
             print("h1 not found")
         print("1----------test_exploringDegrees pass\n\n")
     
-    def test_mainpage_subtitle(self):
+    def test_2_mainpage_subtitle(self):
         try:
             subtitle = self.driver.find_element_by_tag_name("h2")
             self.assertEqual("We believe in you.", subtitle.text)

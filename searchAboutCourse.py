@@ -53,13 +53,13 @@ class SearchAboutCourse(unittest.TestCase):
         except NoSuchElementException:
             print("some element isnt in card")
 
-    def test_searchAboutComputerScience(self):
+    def test_1_searchAboutComputerScience(self):
         self.input1()
         self.card()
         print("1----------test_searchAboutComputerScience pass\n\n")
         sleep(10)
 
-    def test_page_title(self):
+    def test_2_page_title(self):
         try:
             title = self.driver.find_element_by_tag_name("h1")
             self.assertEqual("Computer science and technology degrees", title.text)
