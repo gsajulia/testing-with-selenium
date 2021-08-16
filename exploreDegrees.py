@@ -25,7 +25,7 @@ class ExploreDegrees(unittest.TestCase):
         self.driver.implicitly_wait(10)
         self.driver.get("https://asuonline.asu.edu/")
 
-    def valid_url(url):
+    def valid_url(self, url):
         try:
             req = requests.get(url)
             if req.status_code != requests.codes['ok']:
@@ -91,8 +91,7 @@ class ExploreDegrees(unittest.TestCase):
                 "Explore degrees")
 
             # Link funciona?
-            self.assertTrue(self.driver.current_url +
-                            exploreButton.get_attribute('href'))
+            self.assertTrue(self.valid_url(exploreButton.get_attribute('href')))
 
             exploreButton.click()
         except NoSuchElementException:
