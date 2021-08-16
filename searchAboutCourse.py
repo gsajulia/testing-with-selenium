@@ -13,7 +13,7 @@ class SearchAboutCourse(unittest.TestCase):
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument('ignore-certificate-errors')
-        chrome_options.add_argument("log-level=3");
+        chrome_options.add_argument("log-level=3")
         # chrome_options.add_argument(f'--proxy-server={PROXY}')
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.get("https://asuonline.asu.edu/study/tech-computer-science-degrees/")
