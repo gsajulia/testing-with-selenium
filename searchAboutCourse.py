@@ -24,6 +24,10 @@ class SearchAboutCourse(unittest.TestCase):
             input.clear()
             input.send_keys('web')
 
+            # Confirmando se o texto do search está certo
+            input = self.driver.find_element_by_xpath("//input[@placeholder='Search']")
+            self.assertEqual(input.get_attribute('value'), 'web')
+
         except NoSuchElementException:
             print("search input not found")
 
