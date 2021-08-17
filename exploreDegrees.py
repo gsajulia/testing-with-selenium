@@ -59,6 +59,7 @@ class ExploreDegrees(unittest.TestCase):
 
         except NoSuchElementException:
             print("Dropdown1 not found")
+            self.assertTrue(False)
 
     def dropdown2(self):
         try:
@@ -84,6 +85,7 @@ class ExploreDegrees(unittest.TestCase):
 
         except NoSuchElementException:
             print("Dropdown2 not found")
+            self.assertTrue(False)
 
     def button(self):
         try:
@@ -91,11 +93,13 @@ class ExploreDegrees(unittest.TestCase):
                 "Explore degrees")
 
             # Link funciona?
-            self.assertTrue(self.valid_url(exploreButton.get_attribute('href')))
+            self.assertTrue(self.valid_url(
+                exploreButton.get_attribute('href')))
 
             exploreButton.click()
         except NoSuchElementException:
             print("Button not found")
+            self.assertTrue(False)
 
     def checkboxes(self):
         try:
@@ -114,15 +118,17 @@ class ExploreDegrees(unittest.TestCase):
             #    '#degree-type-filters-281f9709-6f72-4ed0-8e82-5ea0b30f34fe')))
         except NoSuchElementException:
             print("Checkboxes not found")
+            self.assertTrue(False)
         sleep(2)
         try:
             cardsTitles = self.driver.find_elements_by_xpath(
                 '/html/body/div[1]/main/section[2]/div/div/div[2]/div[4]/a/div/div[1]/p')
             for card in cardsTitles:
-                self.assertEqual(card.get_attribute(
-                    'innerText'), "Undergraduate")
+                self.assertEqual(
+                    "Undergraduate", card.get_attribute('innerText'))
         except NoSuchElementException:
             print("cards' titles not found")
+            self.assertTrue(False)
 
     def test_1_exploringDegrees(self):
         self.dropdown1()
@@ -136,8 +142,9 @@ class ExploreDegrees(unittest.TestCase):
             self.assertEqual("All online degree programs", title.text)
         except NoSuchElementException:
             print("h1 not found")
+            self.assertTrue(False)
         print("1----------test_exploringDegrees pass\n\n")
-    
+
     def test_2_mainpage_subtitle(self):
         try:
             subtitle = self.driver.find_element_by_tag_name("h2")
@@ -145,6 +152,7 @@ class ExploreDegrees(unittest.TestCase):
 
         except NoSuchElementException:
             print("h1 not found")
+            self.assertTrue(False)
 
         print("2----------test_page_subtitle pass\n\n")
 
