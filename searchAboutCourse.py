@@ -17,16 +17,24 @@ class SearchAboutCourse(unittest.TestCase):
         # chrome_options.add_argument(f'--proxy-server={PROXY}')
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.get("https://asuonline.asu.edu/study/tech-computer-science-degrees/")
-    
+
+        # Option 1
+        self.inputValue = "web"
+        self.expectedCardElements = 2
+
+        # Option 2
+        # self.inputValue = "computer"
+        # self.expectedCardElements = 4
+
     def input1(self):
         try:
             input = self.driver.find_element_by_xpath("//input[@placeholder='Search']")
             input.clear()
-            input.send_keys('web')
+            input.send_keys(self.inputValue)
 
             # Confirmando se o texto do search está certo
             input = self.driver.find_element_by_xpath("//input[@placeholder='Search']")
-            self.assertEqual(input.get_attribute('value'), 'web')
+            self.assertEqual(input.get_attribute('value'), self.inputValue)
 
         except NoSuchElementException:
             print("search input not found")
@@ -36,7 +44,7 @@ class SearchAboutCourse(unittest.TestCase):
             sleep(2)
             # Testando se a imagem existe no card e se o total de imagens está correto
             imageOfCard = self.driver.find_elements_by_class_name("degree-search-card-image")
-            self.assertTrue(len(imageOfCard) == 2)
+            self.assertTrue(len(imageOfCard) == self.expectedCardElements)
 
             # Testando se a quantidade é igual a quantidade esperada
             cardTopElem = self.driver.find_element_by_xpath("//*[contains(text(), 'programs total')]")
@@ -46,7 +54,7 @@ class SearchAboutCourse(unittest.TestCase):
             cardBottomElem = self.driver.find_elements_by_xpath("//div[@class='card-body degree-search-card-body']//h3")
             for elem in cardBottomElem:
                 # print("-------------Opções de cards: ", elem.text)
-                self.assertIn("web", elem.text.lower())
+                self.assertIn(self.inputValue, elem.text.lower())
 
             
 
@@ -57,7 +65,7 @@ class SearchAboutCourse(unittest.TestCase):
         self.input1()
         self.card()
         print("1----------test_searchAboutComputerScience pass\n\n")
-        sleep(10)
+        sleep(2)
 
     def test_2_page_title(self):
         try:

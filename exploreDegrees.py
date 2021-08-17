@@ -25,18 +25,6 @@ class ExploreDegrees(unittest.TestCase):
         # self.driver.implicitly_wait(10)
         self.driver.get("https://asuonline.asu.edu/")
 
-    def valid_url(self, url):
-        try:
-            req = requests.get(url)
-            if req.status_code != requests.codes['ok']:
-                return False
-        except Exception as ex:
-            print(f'Something went wrong: {ex}')
-            print('Try again!')
-            return False
-
-        return True
-
     def dropdown1(self):
         # Elemento existe?
         try:
@@ -84,6 +72,18 @@ class ExploreDegrees(unittest.TestCase):
 
         except NoSuchElementException:
             print("Dropdown2 not found")
+
+    def valid_url(self, url):
+        try:
+            req = requests.get(url)
+            if req.status_code != requests.codes['ok']:
+                return False
+        except Exception as ex:
+            print(f'Something went wrong: {ex}')
+            print('Try again!')
+            return False
+
+        return True
 
     def button(self):
         try:
