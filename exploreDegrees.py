@@ -20,9 +20,9 @@ class ExploreDegrees(unittest.TestCase):
         chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument('ignore-certificate-errors')
         chrome_options.add_argument("log-level=3")
-        # chrome_options.add_argument(f'--proxy-server={PROXY}')
+        chrome_options.add_argument(f'--proxy-server={PROXY}')
         self.driver = webdriver.Chrome(options=chrome_options)
-        # self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(10)
         self.driver.get("https://asuonline.asu.edu/")
 
     def dropdown1(self):
@@ -91,7 +91,7 @@ class ExploreDegrees(unittest.TestCase):
         try:
             exploreButton = self.driver.find_element_by_link_text(
                 "Explore degrees")
-
+            self.assertTrue(exploreButton.is_displayed())
             # Link funciona?
             link = exploreButton.get_attribute('href')
             self.assertTrue(self.valid_url(link))
@@ -145,6 +145,7 @@ class ExploreDegrees(unittest.TestCase):
         # Subppage
         try:
             title = self.driver.find_element_by_tag_name("h1")
+            self.assertTrue(title.is_displayed())
             self.assertEqual("All online degree programs", title.text)
         except NoSuchElementException:
             print("h1 not found")
@@ -154,10 +155,11 @@ class ExploreDegrees(unittest.TestCase):
     def test_2_mainpage_subtitle(self):
         try:
             subtitle = self.driver.find_element_by_tag_name("h2")
+            self.assertTrue(subtitle.is_displayed())
             self.assertEqual("We believe in you.", subtitle.text)
 
         except NoSuchElementException:
-            print("h1 not found")
+            print("h2 not found")
             self.assertTrue(False)
 
         print("2----------test_page_subtitle pass\n\n")
