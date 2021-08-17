@@ -70,7 +70,7 @@ class SearchAboutCourse(unittest.TestCase):
         self.input1()
         self.card()
         print("1----------test_searchAboutComputerScience pass\n\n")
-        sleep(2)
+        sleep(8)
 
     def test_2_page_title(self):
         try:
