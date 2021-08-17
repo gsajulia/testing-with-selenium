@@ -98,6 +98,10 @@ class ExploreDegrees(unittest.TestCase):
             self.assertEqual(
                 'https://asuonline.asu.edu/online-degree-programs/?degree=undergraduate&interest=engineering-degrees', link)
 
+            # Link errado para testar
+            # wrongLink = "https://asuonline.asu.edu/on"
+            # self.assertTrue(self.valid_url(wrongLink))
+
             exploreButton.click()
         except NoSuchElementException:
             print("Button not found")
